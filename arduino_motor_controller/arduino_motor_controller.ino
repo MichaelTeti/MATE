@@ -62,10 +62,7 @@ void loop() {
       //     Serial.print("Right string: ");
       //     Serial.println(thruster_right);
 
-      Serial.println(thruster_right);
       //delay(100);
-      Serial.print('\t');
-      Serial.println(thruster_left);
 
       // Write the signal value to one of the servo objects
       esc_left.write(thruster_left);

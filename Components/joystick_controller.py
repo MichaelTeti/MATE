@@ -13,7 +13,7 @@ class JoystickController:
         port_parent, port_child = os.path.split(serial_port)
         assert(port_child in os.listdir(port_parent)), \
             'Serial port {} not found. Please make sure it exists.'.format(port_child)
-        self.ser = serial.Serial(serial_port, 115200, timeout=1)
+        self.ser = serial.Serial(serial_port, 115200, write_timeout=1./check_freq)
    
         self.axes = [1, 3]
         self.check_interval = 1.0 / check_freq
@@ -36,6 +36,12 @@ class JoystickController:
                 recent_values.append(value_mod)
 
             serial_output =','.join(recent_values) + ';'                
-            self.ser.write(serial_output.encode())
-            self.last_check = time.time()
 
+            try:
+                self.ser.write(serial_output.encode())
+                self.last_check = time.time()
+            except:
+                print('write timeout occurred')
+#                self.ser.flush() 
+#                self.ser.reset_output_buffer()
+#                time.sleep(1)

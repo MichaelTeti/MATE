@@ -1,6 +1,6 @@
-from Components.JoystickController import *
-from Components.Camera import *
-from Components.ObjectDetector import *
+from Components.joystick_controller import *
+from Components.camera import *
+from Components.object_detector import *
 
 import cv2
 import os
