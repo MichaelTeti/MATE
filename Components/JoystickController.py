@@ -13,7 +13,7 @@ class JoystickController:
         port_parent, port_child = os.path.split(serial_port)
         assert(port_child in os.listdir(port_parent)), \
             'Serial port {} not found. Please make sure it exists.'.format(port_child)
-        self.ser = serial.Serial(serial_port, 9600, timeout=1)
+        self.ser = serial.Serial(serial_port, 115200, timeout=1)
    
         self.axes = [1, 3]
         self.check_interval = 1.0 / check_freq

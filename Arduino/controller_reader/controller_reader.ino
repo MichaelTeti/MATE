@@ -1,6 +1,6 @@
 
 
-*/
+//
 ////////////////////////////////////
 /// 1: Header
 
@@ -18,7 +18,7 @@ int save_as_second = false;// define a logical element that tracks if values are
 /// 2: Setup
 
 void setup() {
-  Serial.begin(9600);    // Open a serial channel at a baudrate of 9600
+  Serial.begin(115200);    // Open a serial channel at a baudrate of 9600
   esc_left.attach(9, 1300, 1700);  // Assign a servo object to pin 9
   esc_right.attach(10, 1300, 1700); // Assign a servo to pin 10
   
