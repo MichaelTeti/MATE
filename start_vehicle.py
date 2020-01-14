@@ -31,7 +31,7 @@ parser.add_argument('--model_config_path',
 parser.add_argument('--model_weights_path',
     type=str,
     default=None,
-    help='Path to the model weights if using autonomous mode.')
+    help='Path to the model weights.')
 parser.add_argument('--img_size',
     type=int,
     default=256,

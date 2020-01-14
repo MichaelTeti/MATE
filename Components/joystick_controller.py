@@ -19,6 +19,7 @@ class JoystickController:
         self.check_interval = 1.0 / check_freq
         self.last_check = self.check_interval
         self.shutdown = False
+        self.serial_output = None
 
 
     def update_motors(self):
@@ -35,13 +36,7 @@ class JoystickController:
                 value_mod = str(int(latest_value))
                 recent_values.append(value_mod)
 
-            serial_output =','.join(recent_values) + ';'                
+            self.serial_output =','.join(recent_values) + ';'                
 
-            try:
-                self.ser.write(serial_output.encode())
-                self.last_check = time.time()
-            except:
-                print('write timeout occurred')
-#                self.ser.flush() 
-#                self.ser.reset_output_buffer()
-#                time.sleep(1)
+            self.ser.write(self.serial_output.encode())
+            self.last_check = time.time()
