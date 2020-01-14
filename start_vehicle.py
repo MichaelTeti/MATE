@@ -16,14 +16,6 @@ parser.add_argument('--control_mode',
     choices=['joystick', 'autonomous'],
     default='joystick',
     help='Whether to use the joystick for control or autonomous mode. Default is joystick.')
-parser.add_argument('--collect_data',
-    type=bool,
-    default=False,
-    help='True to collect data, False to not save data. Default is False.')
-parser.add_argument('--data_save_path',
-    type=str,
-    default='Data',
-    help='The path where you would like to save the data if collect_data is True.')
 parser.add_argument('--model_config_path',
     type=str,
     default=None,
@@ -36,6 +28,10 @@ parser.add_argument('--img_size',
     type=int,
     default=256,
     help='The size the image will be resized to for the ObjectDetector model. Default is 256.')
+parser.add_argument('--data_collection_interval',
+    type=float,
+    default=0.3,
+    help='How many seconds to wait until adding a new frame to the dataset. Default is 0.3')
 args = parser.parse_args()
 
 
@@ -43,7 +39,6 @@ if __name__ == '__main__':
     Vehicle(controller=args.control_mode,
             motor_fps=args.motor_update_freq,
             cam_fps=args.camera_update_freq,
-            collect_data=args.collect_data,
-            data_save_path=args.data_save_path,
             model_config_path=args.model_config_path,
-            model_weights_path=args.model_weights_path)
+            model_weights_path=args.model_weights_path,
+            data_collection_interval=args.data_collection_interval)

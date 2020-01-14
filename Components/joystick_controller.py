@@ -20,12 +20,16 @@ class JoystickController:
         self.last_check = self.check_interval
         self.shutdown = False
         self.serial_output = None
+        self.collect_data = False
 
 
     def update_motors(self):
         pygame.event.pump()
         if self.j.get_button(13) == 1:
             self.shutdown = True
+        elif self.j.get_button(15) == 1:
+            if not self.collect_data: self.collect_data = True
+            elif self.collect_data: self.collect_data = False
 
         if time.time() - self.last_check >= self.check_interval:
             recent_values = []
