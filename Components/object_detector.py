@@ -34,7 +34,7 @@ class ObjectDetector:
 
 
     def to_Tensor(self, image):
-        image = image / 255.
+        image = image[..., ::-1] / 255.
         return Variable(torch.from_numpy(image).float().cuda().permute(2, 0, 1)[None, ...])
 
 

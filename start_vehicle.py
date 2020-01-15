@@ -41,4 +41,5 @@ if __name__ == '__main__':
             cam_fps=args.camera_update_freq,
             model_config_path=args.model_config_path,
             model_weights_path=args.model_weights_path,
-            data_collection_interval=args.data_collection_interval)
+            data_collection_interval=args.data_collection_interval,
+            img_size=args.img_size)
