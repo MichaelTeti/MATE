@@ -32,6 +32,10 @@ parser.add_argument('--data_collection_interval',
     type=float,
     default=0.3,
     help='How many seconds to wait until adding a new frame to the dataset. Default is 0.3')
+parser.add_argument('--show_frame',
+    type=bool,
+    default=False,
+    help='Whether to show the incoming frames or not. Default is False.')
 args = parser.parse_args()
 
 
@@ -42,4 +46,5 @@ if __name__ == '__main__':
             model_config_path=args.model_config_path,
             model_weights_path=args.model_weights_path,
             data_collection_interval=args.data_collection_interval,
-            img_size=args.img_size)
+            img_size=args.img_size,
+            show_frame=args.show_frame)
