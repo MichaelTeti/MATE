@@ -27,7 +27,7 @@ class DataCollector:
             self.last_collection_time = time()
             if self.img_count == 999:
                 self.img_dset[self.dset_count][self.img_count, ...] = img
-                self.motor_dset[self.dset_count][self.img_count, :] = [int(v) for v in motors[:-1].split(',')]
+                self.motor_dset[self.dset_count][self.img_count, :] = [int(v) for v in motors[:-3].split(',')]
                 if objects is not None: 
                     self.object_dset[self.dset_count][self.img_count, :objects.shape[0] if objects.shape[0] <= 8 else 8, :] = objects.cpu().numpy()
 
@@ -39,7 +39,7 @@ class DataCollector:
 
             else:
                 self.img_dset[self.dset_count][self.img_count, ...] = img
-                self.motor_dset[self.dset_count][self.img_count, :] = [int(v) for v in motors[:-1].split(',')]
+                self.motor_dset[self.dset_count][self.img_count, :] = [int(v) for v in motors[:-3].split(',')]
                 if objects is not None: 
                     self.object_dset[self.dset_count][self.img_count, :objects.shape[0] if objects.shape[0] <= 8 else 8, :] = objects.cpu().numpy()
 
