@@ -28,7 +28,6 @@ class Vehicle:
             detections = self.object_model.detect(frame)
 
             if self.controller.collect_data:
-                print('collecting')
                 self.data_collector.add_data(frame, detections, self.controller.serial_output)
 
         self.data_collector.save_dset()

@@ -11,6 +11,7 @@ class DataCollector:
         self.img_size = img_size
         self.data_collection_interval = data_collection_interval
         self.last_collection_time = time()
+        self.initial_collection_time = self.last_collection_time
         self.img_count = 0
         self.dset_count = 0
         os.mkdir('Data') if 'Data' not in os.listdir() else None 
@@ -46,7 +47,7 @@ class DataCollector:
 
 
     def save_dset(self):
-        if self.last_collection_time is not None:
+        if self.last_collection_time != self.initial_collection_time:
             if self.img_count < 999:
                 self.img_dset[self.dset_count] = self.img_dset[self.dset_count][:self.img_count, ...]
                 self.object_dset[self.dset_count] = self.object_dset[self.dset_count][:self.img_count, ...]
