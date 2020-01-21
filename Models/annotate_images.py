@@ -37,7 +37,7 @@ assert(args.n_classes > 0), 'n_classes must be greater than 0, but it is {}.'.fo
 
 def shape_selection(event, x, y, flags, param):
     # grab references to the global variables
-    global ref_point, crop, n_labels_per_class
+    global ref_point, crop, n_labels_per_class, display_name
 
     # if the left mouse button was clicked, record the starting
     # (x, y) coordinates and indicate that cropping is being performed
@@ -51,8 +51,8 @@ def shape_selection(event, x, y, flags, param):
         ref_point.append((x, y))
 
         # draw a rectangle around the region of interest
-        cv2.rectangle(img, ref_point[0], ref_point[1], (0, 255, 0), 2)
-        cv2.imshow('image', img)
+        cv2.rectangle(img, ref_point[0], ref_point[1], (0, 255, 0), 1)
+        cv2.imshow(display_name, img)
         ref_points.append(ref_point)
         n_labels_per_class[i_class] += 1
 
@@ -65,7 +65,9 @@ current_output_files = os.listdir(args.annotation_output_dir)
 
 
 for i_img_fname, img_fname in enumerate(img_fnames):
-    if os.path.split(img_fname)[1].split('.')[0] + '.txt' not in current_output_files:
+    display_name = os.path.split(img_fname)[1]
+    
+    if display_name.split('.')[0] + '.txt' not in current_output_files:
         img = cv2.imread(img_fname)  # read in each image one at a time
         img = img[..., :-1] if img.shape[-1] == 4 else img
         min_dim = ['height', img.shape[0]] if img.shape[0] < img.shape[1] else ['width', img.shape[1]]
@@ -80,8 +82,8 @@ for i_img_fname, img_fname in enumerate(img_fnames):
         annotation_file = os.path.join(args.annotation_output_dir, os.path.split(img_fname)[1].split('.')[0] + '.txt')
 
         clone = img.copy()
-        cv2.namedWindow('image')
-        cv2.setMouseCallback('image', shape_selection)
+        cv2.namedWindow(display_name)
+        cv2.setMouseCallback(display_name, shape_selection)
         n_labels_per_class = [0] * args.n_classes
 
 
@@ -90,7 +92,7 @@ for i_img_fname, img_fname in enumerate(img_fnames):
 
             while True:
                 # display the image and wait for a keypress
-                cv2.imshow('image', img)
+                cv2.imshow(display_name, img)
                 key = cv2.waitKey(1) & 0xFF
 
                 # press 'r' to reset the window
