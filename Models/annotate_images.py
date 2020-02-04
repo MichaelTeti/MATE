@@ -17,10 +17,10 @@ parser.add_argument('image_output_dir',
 parser.add_argument('n_classes',
     type=int,
     help='The number of classes you are going to identify.')
-parser.add_argument('--crop_size',
+parser.add_argument('--img_size',
     type=int,
     default=416,
-    help='Size to make the crop.')
+    help='Size to make the image.')
 args = parser.parse_args()
 
 args.input_dir = os.path.abspath(args.input_dir)
@@ -65,16 +65,19 @@ current_output_files = os.listdir(args.annotation_output_dir)
 
 
 for i_img_fname, img_fname in enumerate(img_fnames):
-    display_name = os.path.split(img_fname)[1]
-    
-    if display_name.split('.')[0] + '.txt' not in current_output_files:
+    if os.path.split(img_fname)[1].split('.')[0] + '.txt' not in current_output_files:
+        display_name = os.path.split(img_fname)[1]
         img = cv2.imread(img_fname)  # read in each image one at a time
         img = img[..., :-1] if img.shape[-1] == 4 else img
-        min_dim = ['height', img.shape[0]] if img.shape[0] < img.shape[1] else ['width', img.shape[1]]
-        scale_factor = args.crop_size / min_dim[1]
-        img = cv2.resize(img, None, fx=scale_factor, fy=scale_factor)
-        crop_start = img.shape[1] // 2 - args.crop_size // 2 if min_dim[0] == 'height' else img.shape[0] // 2 - args.crop_size // 2
-        img = img[crop_start:crop_start+args.crop_size, :, :] if min_dim[0] == 'width' else img[:, crop_start:crop_start+args.crop_size, :]
+        h, w = img.shape[:2]
+
+        if h != w:
+            if h < w:
+                img = np.pad(img, ((0, w-h), (0, 0), (0, 0)))
+            elif w < h:
+                img = np.pad(img, ((0, 0), (0, h-w), (0, 0)))
+
+        img = cv2.resize(img, (args.img_size, args.img_size))
 
         img_save = img.copy()
         img_h, img_w = img.shape[:2]
@@ -121,7 +124,7 @@ for i_img_fname, img_fname in enumerate(img_fnames):
 
                 if i_box + 1 > sum(n_labels_per_class[:current_class+1]):
                     current_class += 1
-                    
+
                 writer.writerow([current_class, box_cx, box_cy, box_w, box_h])
 
             txtfile.close()
